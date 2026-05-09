@@ -5,9 +5,7 @@ import { Admin } from "@/models/admin.js";
 import HttpError from "@/utils/errorHandler.js";
 import { compare, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
-
 import { User } from "@/models/user.js";
-
 
 const userSignup = TryCatch(async (req, res) => {
     const { success, data, error } = SignupSchema.safeParse(req.body);
