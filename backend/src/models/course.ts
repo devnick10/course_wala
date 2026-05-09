@@ -6,6 +6,7 @@ interface Course {
     thumbnail:string
     video:string
     author:mongoose.Types.ObjectId
+    price:number
 }
 
 type CourseModel = mongoose.Model<Course> & {};

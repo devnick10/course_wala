@@ -48,7 +48,7 @@ const deleteCourse = TryCatch(async (req, res) => {
         courseId: req.params.courseId
     });
     if (!success) {
-        throw new HttpError(400, "Invalid course id")
+        throw new HttpError(400, error.issues.flat().toString())
     }
 
     await Course.findOneAndDelete({ _id: data.courseId, author: adminId });
