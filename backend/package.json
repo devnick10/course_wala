@@ -1,0 +1,53 @@
+{
+   "name": "coursewalla",
+   "version": "1.0.0",
+   "description": "",
+   "main": "dist/server.js",
+   "scripts": {
+      "start": "set NODE_ENV=PRODUCTION & node dist/server.js",
+      "build": "npm run lint && tsc -p . && tsc-alias",
+      "dev": "tsx watch src/server.ts",
+      "lint": "eslint src",
+      "lint:fix": "eslint src --fix",
+      "test": "vitest"
+   },
+   "keywords": [],
+   "author": "",
+   "type": "module",
+   "license": "ISC",
+   "dependencies": {
+      "bcrypt": "^6.0.0",
+      "cors": "2.8.6",
+      "dotenv": "17.4.2",
+      "express": "5.2.1",
+      "helmet": "8.1.0",
+      "jsonwebtoken": "^9.0.3",
+      "mockingoose": "^3.0.0",
+      "mongoose": "9.6.1",
+      "morgan": "1.10.1",
+      "node-cache": "^5.1.2",
+      "vitest": "^4.1.5",
+      "zod": "^4.4.3"
+   },
+   "devDependencies": {
+      "@eslint/js": "10.0.1",
+      "@jest/globals": "^30.4.0",
+      "@types/bcrypt": "^6.0.0",
+      "@types/cors": "2.8.19",
+      "@types/express": "5.0.6",
+      "@types/helmet": "4.0.0",
+      "@types/jest": "^30.0.0",
+      "@types/jsonwebtoken": "^9.0.10",
+      "@types/morgan": "1.9.10",
+      "@types/node": "25.6.0",
+      "@types/supertest": "^7.2.0",
+      "eslint": "10.3.0",
+      "eslint-plugin-import": "2.32.0",
+      "globals": "17.6.0",
+      "supertest": "^7.2.2",
+      "tsc-alias": "1.8.17",
+      "tsx": "4.21.0",
+      "typescript": "^6.0.3",
+      "typescript-eslint": "8.59.1"
+   }
+}
