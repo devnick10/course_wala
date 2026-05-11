@@ -1,9 +1,10 @@
 import { myCache } from "@/lib/cache.js";
 import { PurchaseSchema } from "@/lib/schema.js";
 import { TryCatch } from "@/middlewares/error.js";
+import { Course } from "@/models/course";
 import { Purchase } from "@/models/purchese.js";
 import HttpError from "@/utils/errorHandler.js";
-import { isValidObjectId } from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 
 
 const purchase = TryCatch(async (req, res) => {
@@ -47,19 +48,29 @@ const purchasedCourses = TryCatch(async (req, res) => {
     }
 
     const courses = await Purchase.aggregate([
-        { $match: { userId } },
+        {
+            $match: {
+                userId: new mongoose.Types.ObjectId(userId)
+            }
+        },
         {
             $lookup: {
                 from: "courses",
                 localField: "courseId",
                 foreignField: "_id",
                 as: "courseDetails",
-            },
+
+            }
         },
         { $unwind: "$courseDetails" },
+        {
+            $replaceRoot: {
+                newRoot: "$courseDetails",
+            },
+        }
     ]);
 
-    myCache.set(cacheKey, JSON.stringify(courses), 10);
+    myCache.set(`purchasedCourses_${userId}`, JSON.stringify(courses), 10)
 
     res.json({
         message: "Courses fetched successfully",
@@ -69,6 +80,6 @@ const purchasedCourses = TryCatch(async (req, res) => {
 
 
 export {
-    purchase,purchasedCourses
+    purchase, purchasedCourses
 };
 

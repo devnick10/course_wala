@@ -20,7 +20,10 @@ app.use(
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: '*', credentials: true }));
+app.use(cors({
+  origin: [config.ACCESS_ORIGIN],
+  credentials: true
+}));
 app.use(morgan('dev'));
 
 // Health cheack

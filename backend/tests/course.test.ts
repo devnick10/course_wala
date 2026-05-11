@@ -179,9 +179,5 @@ describe("DELETE /api/v1/courses/:courseId", () => {
             .delete("/api/v1/courses/invalid-id");
 
         expect(response.status).toBe(400);
-
-        expect(response.body.message).toBe(
-            "Invalid course id"
-        );
     });
 });

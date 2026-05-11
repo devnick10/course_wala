@@ -6,6 +6,7 @@ import HttpError from "@/utils/errorHandler.js";
 import { compare, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "@/models/user.js";
+import { myCache } from "@/lib/cache";
 
 const userSignup = TryCatch(async (req, res) => {
     const { success, data, error } = SignupSchema.safeParse(req.body);
@@ -47,7 +48,6 @@ const userSignin = TryCatch(async (req, res) => {
     if (!user) {
         throw new HttpError(401, "Invalid credentials")
     }
-    console.log(user)
     // hash password
     const isValidPassword = await compare(data.password, user.password);
 
@@ -117,4 +117,52 @@ const adminSignin = TryCatch(async (req, res) => {
     })
     return;
 })
-export { adminSignin, adminSignup, userSignin, userSignup };
+const getAdmin = TryCatch(async (req, res) => {
+
+    //@ts-expect-error userId type error
+    const adminId = req.adminId;
+    const cache = myCache.has(`${adminId}`)
+
+    if (cache) {
+        const admin = JSON.parse(myCache.get(`${adminId}`) as string);
+        return res.status(200).json({
+            mesage: "User fetched successsfully",
+            admin
+        })
+    }
+
+    const admin = await Admin.findOne({ _id: adminId }).select({ _id: true, email: true, name: true })
+
+    myCache.set(`${admin?._id}`, JSON.stringify(admin), 10)
+
+    res.status(200).json({
+        mesage: "Admin fetched successsfully",
+        admin
+    })
+    return;
+})
+
+const getUser = TryCatch(async (req, res) => {
+    //@ts-expect-error userId type error
+    const userId = req.userId;
+    const cache = myCache.has(`${userId}`)
+
+    if (cache) {
+        const user = JSON.parse(myCache.get(`${userId}`) as string);
+        return res.status(200).json({
+            mesage: "User fetched successsfully",
+            user
+        })
+    }
+
+    const user = await User.findOne({ _id: userId }).select({ _id: true, email: true, name: true })
+
+    myCache.set(`${user?._id}`, JSON.stringify(user), 10)
+
+    res.status(200).json({
+        mesage: "User fetched successsfully",
+        user
+    })
+    return;
+})
+export { adminSignin, adminSignup, userSignin, userSignup, getUser,getAdmin };

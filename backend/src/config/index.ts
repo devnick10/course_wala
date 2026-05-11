@@ -6,6 +6,7 @@ const _config = {
     MONGO_URL: process.env.MONGO_URL?.trim(),
     PORT: process.env.PORT?.trim() || 3000,
     JWT_USER_SECRET:process.env.JWT_USER_SECRET?.trim() || "user_secret",
-    JWT_ADMIN_SECRET:process.env.JWT_ADMIN_SECRET?.trim()|| "admin_secret"
+    JWT_ADMIN_SECRET:process.env.JWT_ADMIN_SECRET?.trim()|| "admin_secret",
+    ACCESS_ORIGIN:process.env.ACCESS_ORIGIN?.trim()|| "http://localhost:5173"
 }
 export const config = Object.freeze(_config);
